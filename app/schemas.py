@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel, ConfigDict
 
 
@@ -10,9 +12,16 @@ class CryptoCreate(CryptoBase):
 
 
 class Crypto(CryptoBase):
-    id: int
+    cg_id: str
+    symbol: str
     name: str
     price: float
 
     class Config:
         model_config = ConfigDict(from_attributes=True)
+
+
+class CryptoUpdate(BaseModel):
+    # No update for symbol as it is the primary key
+    name: Optional[str] = None
+    price: Optional[float] = None
