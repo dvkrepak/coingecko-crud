@@ -14,6 +14,9 @@ class Settings(BaseSettings):
     # Coingecko
     COINGECKO_API_BASE: str = Field(default="https://api.coingecko.com/api/v3", env="COINGECKO_API_BASE")
 
+    # Update interval
+    UPDATE_INTERVAL_MINUTES: int = Field(default=10, env="UPDATE_INTERVAL_MINUTES")
+
     class Config:
         env_file = ".env"
 

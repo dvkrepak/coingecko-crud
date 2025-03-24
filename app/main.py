@@ -1,6 +1,8 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app import models, schemas, crud, database, coingecko
+from app.scheduler import update_prices_job, scheduler
+from app.settings import settings
 
 models.Base.metadata.create_all(bind=database.engine)
 
@@ -13,6 +15,17 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+@app.on_event("startup")
+def start_scheduler():
+    # Update on start
+    update_prices_job()
+    # Update every 10 mintes
+    scheduler.add_job(update_prices_job, "interval", minutes=settings.UPDATE_INTERVAL_MINUTES)
+
+    scheduler.start()
+
 
 @app.get("/cryptos/", response_model=list[schemas.Crypto])
 def read_cryptos(db: Session = Depends(get_db)):
