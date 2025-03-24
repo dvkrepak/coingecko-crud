@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from app import models
+from app.db import models
 
 
 def get_crypto_by_id(db: Session, cg_id: str):

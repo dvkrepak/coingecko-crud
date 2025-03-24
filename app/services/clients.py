@@ -1,6 +1,6 @@
 from pycoingecko import CoinGeckoAPI
 import redis
-from .settings import settings
+from app.core.settings import settings
 
 cg = CoinGeckoAPI()
 
