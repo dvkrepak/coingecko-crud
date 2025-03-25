@@ -40,5 +40,6 @@ LOGGING_CONFIG = {
     }
 }
 
+
 def setup_logging():
     dictConfig(LOGGING_CONFIG)

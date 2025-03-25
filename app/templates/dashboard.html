@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<!-- Search form -->
+<form class="mb-2" method="get" action="/" role="search">
+    <div class="input-group">
+        <input type="text" class="form-control" name="q" placeholder="Search..." value="{{ q }}">
+        <button class="btn btn-outline-secondary btn-unified" type="submit">🔍 Search</button>
+        {% if q %}
+        <a href="/" class="btn btn-outline-danger btn-unified">⛔ Reset</a>
+        {% endif %}
+    </div>
+</form>
+
+<!-- Error -->
+{% if error %}
+<div class="alert alert-danger">
+    <strong>{{ error }}</strong><br>
+    {% if message %}<small>{{ message }}</small>{% endif %}
+    {% if options %}
+    <ul class="mt-2 mb-0">
+        {% for o in options %}
+        <li>{{ o }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+{% endif %}
+
+<!-- Forms -->
+<form method="post" action="/add" class="mb-4">
+    <div class="input-group">
+        <input type="text" name="symbol" class="form-control" placeholder="Add by symbol or name" required>
+        <button class="btn btn-success btn-unified" type="submit">➕ Add</button>
+    </div>
+</form>
+
+<!-- Tables -->
+<table class="table table-bordered table-hover align-middle">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Symbol</th>
+        <th>Name</th>
+        <th>Price (USD)</th>
+        <th class="col-actions text-center">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for crypto in cryptos %}
+    <tr>
+        <td>{{ crypto.cg_id }}</td>
+        <td>{{ crypto.symbol }}</td>
+        <td>{{ crypto.name }}</td>
+        <td>${{ "%.2f"|format(crypto.price) }}</td>
+        <td class="col-actions text-center">
+            <form method="post" action="/delete/{{ crypto.cg_id }}" class="form-inline">
+                <button class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">🗑️</button>
+            </form>
+        </td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+.btn-unified {
+    min-width: 110px;
+    padding: 0.45rem 1.2rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.col-actions {
+    width: 90px;
+}
+
+.form-inline {
+    display: inline;
+}
