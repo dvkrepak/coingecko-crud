@@ -1,7 +1,3 @@
-Вот полная финальная версия README с внесёнными дополнениями:
-
----
-
 <img align="right" src="https://i.imgur.com/EkmzUIf.png" alt="Crypto Dashboard" width="400" height="200">
 
 ## **Crypto Dashboard**
