@@ -3,6 +3,19 @@ from pydantic import Field
 
 
 class Settings(BaseSettings):
+    """
+    Configuration settings for the application, loaded from environment variables.
+
+    Attributes:
+        DATABASE_URL (str): Database connection URL.
+        REDIS_HOST (str): Redis server host.
+        REDIS_PORT (int): Redis server port.
+        REDIS_CACHE_TTL (int): Cache TTL (Time-To-Live) for Redis in seconds.
+        COINGECKO_API_BASE (str): Base URL for the CoinGecko API.
+        UPDATE_INTERVAL_MINUTES (int): Interval in minutes for scheduled tasks.
+
+    Configuration is loaded from environment variables or defaults.
+    """
     # Database
     DATABASE_URL: str = Field(..., env="DATABASE_URL")
 

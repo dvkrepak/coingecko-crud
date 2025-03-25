@@ -10,6 +10,9 @@ scheduler = BackgroundScheduler()
 
 
 def update_prices_job():
+    """
+    Scheduled job that fetches updated prices for all cryptos from CoinGecko and updates the database.
+    """
     logger.info("Scheduled job: Updating crypto prices...")
     db = SessionLocal()
     updated = 0

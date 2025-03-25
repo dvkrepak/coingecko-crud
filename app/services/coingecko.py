@@ -11,6 +11,17 @@ logger = logging.getLogger(__name__)
 
 
 def get_cached_coins_list():
+    """
+    Retrieve the list of coins, either from Redis cache or Coingecko API.
+
+    Caches the coin list in Redis for subsequent requests to avoid repeated API calls.
+
+    Returns:
+        list: A list of coins fetched from Coingecko or Redis cache.
+
+    Raises:
+        HTTPException: If fetching coins from Coingecko fails.
+    """
     cached = r.get("coins_list")
     if cached:
         logger.debug("Loaded coins list from Redis cache")
@@ -28,10 +39,24 @@ def get_cached_coins_list():
 
 
 def resolve_to_id(query: str) -> str | None:
+    """
+    Resolve a query (coin symbol, name, or ID) to a CoinGecko ID.
+
+    Searches for an exact match for the coin ID, symbol, or name.
+
+    Args:
+        query (str): The query to resolve (e.g., coin symbol or name).
+
+    Returns:
+        str | None: The resolved CoinGecko ID or None if not found.
+
+    Raises:
+        HTTPException: If there are multiple matches for a symbol or no match found.
+    """
     query_lower = query.lower()
     coins = get_cached_coins_list()
 
-    # 1. Exact match on Coingecko ID
+    # 1. Exact match on CoinGecko ID
     for coin in coins:
         if coin["id"].lower() == query_lower:
             logger.debug(f"Resolved '{query}' as exact Coingecko ID")
@@ -64,6 +89,15 @@ def resolve_to_id(query: str) -> str | None:
 
 
 def fetch_crypto_data(query: str):
+    """
+    Fetch market data for a cryptocurrency from CoinGecko.
+
+    Args:
+        query (str): The query to resolve (e.g., coin symbol or name).
+
+    Returns:
+        dict | None: A dictionary containing the coin's market data or None if not found.
+    """
     start = time.time()
     coin_id = resolve_to_id(query)
     duration = round(time.time() - start, 2)
